@@ -1,8 +1,13 @@
 package com.arpan.entities;
 
+
+/**
+ * @author arpan
+ *
+ */
 public class Address {
 
-	private String id;
+	private Long id;
 	
 	private String street;
 	
@@ -16,11 +21,11 @@ public class Address {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
