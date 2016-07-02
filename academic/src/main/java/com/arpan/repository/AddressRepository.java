@@ -36,7 +36,7 @@ public class AddressRepository {
 			Statement statement = con.createStatement();
 			try {
 				statement
-						.execute("CREATE TABLE Address(id INT NOT NULL AUTO_INCREMENT,street VARCHAR(20) NOT NULL,city VARCHAR(20) NOT NULL,state VARCHAR(20) NOT NULL,zip VARCHAR(20) NOT NULL,PRIMARY KEY (id) ) ");
+						.execute("CREATE TABLE Address(id int NOT NULL AUTO_INCREMENT,street varchar(20) NOT NULL,city varchar(20) NOT NULL,state varchar(20) NOT NULL,zip varchar(20) NOT NULL,PRIMARY KEY (id))");
 			} finally {
 				statement.close();
 			}
@@ -83,7 +83,7 @@ public class AddressRepository {
 			Statement statement = con.createStatement();
 			try {
 				statement
-						.executeUpdate("INSERT INTO Address ('street','city','state','zip') VALUES ('"
+						.executeUpdate("INSERT INTO Address (street,city,state,zip) VALUES ('"
 								+ address.getStreet()
 								+ "','"
 								+ address.getCity()
@@ -91,11 +91,12 @@ public class AddressRepository {
 								+ address.getState()
 								+ "','"
 								+ address.getZip()
-								+ "' ");
+								+ "')",statement.RETURN_GENERATED_KEYS);
 				ResultSet resultSet = statement.getGeneratedKeys();
 				try {
 					if (resultSet.next()) {
-						address.setId(resultSet.getLong("id"));
+						address.setId(resultSet.getLong(1));
+						System.out.println(address.getId());
 					}
 				} finally {
 					resultSet.close();
