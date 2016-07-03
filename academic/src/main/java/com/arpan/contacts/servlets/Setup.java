@@ -33,9 +33,9 @@ public class Setup implements ServletContextListener {
 		try {
 			
 			new AddressRepository().init();
-			new AddressRepository().create(new Address("600 Langsdorf Dr", "Fullerton", "CA", "92831"));
+			//new AddressRepository().create(new Address("600 Langsdorf Dr", "Fullerton", "CA", "92831"));
 			new ContactRepository().init();
-			new ContactRepository().create(new Contact("arpan",1L));
+			//new ContactRepository().create(new Contact("arpan",1L));
 		} catch (SQLException e) {
 
 			e.printStackTrace();
