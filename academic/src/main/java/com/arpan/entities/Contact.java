@@ -18,9 +18,7 @@ public class Contact {
 	}
 	
 	
-	public Contact(Long id, String name, Long addressId) {
-		super();
-		this.id = id;
+	public Contact(String name,Long addressId) {
 		this.name = name;
 		this.addressId = addressId;
 	}

@@ -40,7 +40,7 @@ public class ContactRepository {
 			Statement statement = con.createStatement();
 			try {
 				statement
-						.execute("CREATE TABLE Contact(id int NOT NULL AUTO_INCREMENT,name varchar(50) NOT NULL,address_id int NOT NULL, FOREIGN KEY (address_id) REFERENCES Address)");
+						.execute("CREATE TABLE Contact(id int NOT NULL AUTO_INCREMENT,name varchar(50) NOT NULL,address_id int, PRIMARY KEY (id), FOREIGN KEY (address_id) REFERENCES Address(id))");
 			} finally {
 				statement.close();
 			}
@@ -51,7 +51,7 @@ public class ContactRepository {
 
 	}
 
-	public List<Contact> findAll(Long id) throws SQLException {
+	public List<Contact> findAll() throws SQLException {
 		Connection con = ds.getConnection();
 		try {
 			Statement statement = con.createStatement();
@@ -89,16 +89,20 @@ public class ContactRepository {
 		try {
 			Statement statement = con.createStatement();
 			try {
+				System.out.println("Top of Insert");
+				System.out.println("Address ID "+contact.getAddressId());
 				statement.executeUpdate(
 						"INSERT INTO Contact (name,address_id) VALUES ('"
-								+ contact.getName() + "','"
-								+ contact.getAddressId() + "')",
+								+ contact.getName()+"','"
+								+contact.getAddressId()
+								+ "')",
 						statement.RETURN_GENERATED_KEYS);
+				System.out.println("After of Insert");
 				ResultSet resultSet = statement.getGeneratedKeys();
+				System.out.println("After reesult set of Insert");
 				try {
 					if (resultSet.next()) {
 						contact.setId(resultSet.getLong(1));
-						System.out.println(contact.getId());
 					}
 				} finally {
 					resultSet.close();
