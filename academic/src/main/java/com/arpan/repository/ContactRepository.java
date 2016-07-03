@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -49,18 +51,23 @@ public class ContactRepository {
 
 	}
 
-	public Contact find(Long id) throws SQLException {
+	public List<Contact> findAll(Long id) throws SQLException {
 		Connection con = ds.getConnection();
 		try {
 			Statement statement = con.createStatement();
 			try {
 				ResultSet resultSet = statement
-						.executeQuery("SELECT * FROM Contact WHERE id = " + id);
-				if (!resultSet.next()) {
-					return null;
-				} else {
-					return unmarshal(resultSet);
+						.executeQuery("SELECT * FROM Contact");
+				try{
+					List<Contact> contactList = new ArrayList<Contact>();
+					while(resultSet.next()){
+						contactList.add(unmarshal(resultSet));
+					}
+					return contactList;
+				}finally{
+					resultSet.close();
 				}
+				
 			} finally {
 				statement.close();
 			}
@@ -74,7 +81,6 @@ public class ContactRepository {
 		contact.setId(resultSet.getLong("id"));
 		contact.setName(resultSet.getString("name"));
 		contact.setAddressId(resultSet.getLong("address_id"));
-		
 		return contact;
 	}
 
@@ -83,12 +89,11 @@ public class ContactRepository {
 		try {
 			Statement statement = con.createStatement();
 			try {
-				statement
-						.executeUpdate("INSERT INTO Contact (name,address_id) VALUES ('"
-								+ contact.getName()
-								+ "','"
-								+ contact.getAddressId()
-								+ "')",statement.RETURN_GENERATED_KEYS);
+				statement.executeUpdate(
+						"INSERT INTO Contact (name,address_id) VALUES ('"
+								+ contact.getName() + "','"
+								+ contact.getAddressId() + "')",
+						statement.RETURN_GENERATED_KEYS);
 				ResultSet resultSet = statement.getGeneratedKeys();
 				try {
 					if (resultSet.next()) {
@@ -101,7 +106,6 @@ public class ContactRepository {
 			} finally {
 				statement.close();
 			}
-
 
 		} finally {
 			con.close();
@@ -127,15 +131,14 @@ public class ContactRepository {
 
 	}
 
-
 	public void update(Contact contact) throws SQLException {
 		Connection con = ds.getConnection();
 		try {
 			Statement statement = con.createStatement();
 			try {
-				 statement.executeUpdate("UPDATE Contact SET name='"
-						+ contact.getName()+ "'");
-					
+				statement.executeUpdate("UPDATE Contact SET name='"
+						+ contact.getName() + "'");
+
 			} finally {
 				statement.close();
 			}
