@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebListener;
 
 import com.arpan.entities.Address;
 import com.arpan.repository.AddressRepository;
+import com.arpan.repository.ContactRepository;
 
 /**
  * @author arpan
@@ -27,15 +28,14 @@ public class Setup implements ServletContextListener {
 		//instiate address repository
 		//init
 		//go nuts!!
-		AddressRepository addressRepository = new AddressRepository();
 		try {
-			addressRepository.init();
-			Address address = new Address("600 Langsdorf Dr","Fullerton","CA","92831");
-			addressRepository.create(address);
-			System.out.println("Done");
+			new AddressRepository().init();
+			new ContactRepository().init();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
