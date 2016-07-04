@@ -5,16 +5,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-
+<title>Add Contact</title>
 </head>
 <body>
-	<h1>Contacts</h1>
-	<ul>
-		<c:forEach var="contact" items="${contacts}">
-			<li><a href="contact?id=${contact.id}">${contact.name} </a></li>
-		</c:forEach>
-	</ul>
-	<a href="contact?add">Add a new contact</a>
+	<h1>${contact.name} </h1>
+		<ul>
+			<li>street : ${address.street}</li>
+			<li>city : ${address.city} </li>
+			<li>state : ${address.state} </li>
+			<li>zip : ${address.zip} </li>
+		</ul>
+	<a href="contacts">Back to contact list </a>
+	<a href="contact?edit&id=${contact.id}">Edit contact</a>
 </body>
 </html>

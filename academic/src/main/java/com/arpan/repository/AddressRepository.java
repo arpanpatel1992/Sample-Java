@@ -137,7 +137,7 @@ public class AddressRepository {
 				 statement.executeUpdate("UPDATE Address SET street='"
 						+ address.getStreet() + "',city='" + address.getCity()
 						+ "',state='" + address.getState() + "',zip='"
-						+ address.getState() + "' WHERE id=" + address.getId());
+						+ address.getZip() + "' WHERE id=" + address.getId());
 					
 			} finally {
 				statement.close();

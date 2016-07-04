@@ -75,6 +75,25 @@ public class ContactRepository {
 			con.close();
 		}
 	}
+	public Contact find(Long id) throws SQLException {
+		Connection con = ds.getConnection();
+		try {
+			Statement statement = con.createStatement();
+			try {
+				ResultSet resultSet = statement
+						.executeQuery("SELECT * FROM Contact WHERE id = " + id);
+				if (!resultSet.next()) {
+					return null;
+				} else {
+					return unmarshal(resultSet);
+				}
+			} finally {
+				statement.close();
+			}
+		} finally {
+			con.close();
+		}
+	}
 
 	private Contact unmarshal(ResultSet resultSet) throws SQLException {
 		Contact contact = new Contact();
@@ -141,7 +160,7 @@ public class ContactRepository {
 			Statement statement = con.createStatement();
 			try {
 				statement.executeUpdate("UPDATE Contact SET name='"
-						+ contact.getName() + "'");
+						+ contact.getName() + "' WHERE id="+contact.getId() );
 
 			} finally {
 				statement.close();
@@ -152,5 +171,7 @@ public class ContactRepository {
 		}
 
 	}
+	
+	
 
 }
