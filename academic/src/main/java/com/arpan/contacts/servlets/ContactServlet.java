@@ -79,9 +79,9 @@ public class ContactServlet extends HttpServlet {
 				// persist
 				long id = Long.parseLong(request.getParameter("id"));
 				Contact contact = contactRepository.find(id);
-				//System.out.println();
+				// System.out.println();
 				contact.setName(request.getParameter("name"));
-				
+
 				System.out.println("Inside Method");
 				Address address = addressRepository
 						.find(contact.getAddressId());
@@ -90,12 +90,22 @@ public class ContactServlet extends HttpServlet {
 				address.setState(request.getParameter("state"));
 				address.setZip(request.getParameter("zip"));
 				System.out.println(request.getParameter("zip"));
-				
+
 				contactRepository.update(contact);
 				addressRepository.update(address);
 
 				response.sendRedirect("contact?id=" + contact.getId());
-			} else {
+			} else if (request.getParameter("delete") != null) {
+				long id = Long.parseLong(request.getParameter("id"));
+				Contact contact = contactRepository.find(id);
+				contactRepository.delete(contact);
+				Address address = addressRepository
+						.find(contact.getAddressId());
+				addressRepository.delete(address);
+				response.sendRedirect("contacts");
+			}
+
+			else {
 				super.doPost(request, response);
 			}
 

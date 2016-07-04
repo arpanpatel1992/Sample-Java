@@ -17,7 +17,6 @@ public class Contact {
 		
 	}
 	
-	
 	public Contact(String name,Long addressId) {
 		this.name = name;
 		this.addressId = addressId;
